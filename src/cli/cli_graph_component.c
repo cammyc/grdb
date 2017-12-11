@@ -91,7 +91,7 @@ cli_graph_component_sssp(char *cmdline, int *pos)
 	struct component c;
 	vertexid_t v1, v2;
 	char s[BUFSIZE];
-	int fd, n, total_weight, result;
+	int fd, n, totalWeight, result;
 	vertexid_t *path = NULL;
 
 	memset(s, 0, BUFSIZE);
@@ -136,10 +136,20 @@ cli_graph_component_sssp(char *cmdline, int *pos)
 
 	/* Setup and run Dijkstra */
 	n = (-1);
-	total_weight = (-1);
-	result = component_sssp(&c, v1, v2, &n, &total_weight, &path);
+	totalWeight = (-1);
+
+	result = component_sssp(&c, v1, v2, &n, &totalWeight, &path);
 	if (result < 0) {
-		/* Failure... */
+		printf("Dijkstra's algorithm failed :('\n");
+	} else {
+		printf("Cost of SSSP: %i\n", totalWeight);
+		printf("SSSP: ");
+		for (int i = 0; i < n; i += 1){
+			printf("%llu", path[i]);
+			if(i != n-1)
+				printf(" -> ");
+		}	
+		printf("\n");
 	}
 }
 
